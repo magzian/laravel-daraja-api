@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Payments\MpesaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,5 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/mpesa', fn () => Inertia::render('AccessToken'));
+Route::get('/api/access-token', [MpesaController::class, 'getAccessToken'])->name('mpesa.getAccessToken');
+
+
 
 require __DIR__.'/auth.php';
