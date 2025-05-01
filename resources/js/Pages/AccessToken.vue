@@ -1,52 +1,72 @@
 <template>
-  
-     <div class="container mt-5">
-        <div class="row">
-            <div class="col-sm-8 mx-auto">
-                <div class="card">
-                    <div class="card-header">Obtain Access Token</div>
-                    <div class="card-body">
-                        <h4>{{ accessToken }}</h4>
-                        <button @click="getAccessToken" class="btn btn-primary mt-3">Request Access Token</button>
-                    </div>
-                </div>
-                <div class="card mt-5">
-                    <div class="card-header">Register URLs</div>
-                    <div class="card-body">
-                        <button @click="registerUrls" class="btn btn-primary mt-3">Register URLs</button>
-                    </div>
-                </div>
-            </div>
+    <div class="max-w-4xl mx-auto mt-10 px-4">
+        <!-- Obtain Access Token Card -->
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                Obtain Access Token
+            </h2>
+            <h4 class="text-gray-600 text-lg mb-4">{{ accessToken }}</h4>
+            <button @click="getAccessToken" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                Request Access Token
+            </button>
         </div>
-    </div>  
+
+        <!-- Register URLs Card -->
+        <div class="bg-white shadow-md rounded-lg p-6 mt-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                Register URLs
+            </h2>
+            <button @click="registerUrls" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Register URLs
+            </button>
+        </div>
+
+        <!-- Optional Form Example -->
+        <div class="bg-white shadow-md rounded-lg p-6 mt-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                Sample Form
+            </h2>
+            <form @submit.prevent="submitForm">
+                <div class="mb-4">
+                    <label for="url" class="block text-gray-700 font-medium mb-2">URL</label>
+                    <input type="text" id="url" v-model="url"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                        required />
+                </div>
+                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                    Submit URL
+                </button>
+            </form>
+        </div>
+    </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import Swal from 'sweetalert2';
-import axios from 'axios';
+import { ref } from "vue";
+import Swal from "sweetalert2";
+import axios from "axios";
 
-const accessToken = ref('');
+const accessToken = ref("");
 
 const getAccessToken = async () => {
     try {
-        const response = await axios.get('/api/access-token');
+        const response = await axios.get("/api/access-token");
         accessToken.value = response.data.access_token;
-        Swal.fire('Success', 'Access token retrieved.', 'success');
+        console.log("Access Token:", accessToken.value);
+        console.log("Response Data:", response.data);
+        Swal.fire("Success", "Access token retrieved.", "success");
     } catch (error) {
-        Swal.fire('Error', 'Failed to retrieve access token.', 'error');
+        console.error("Access Token Error:", error.response?.data || error.message);
+        Swal.fire("Error", "Failed to retrieve access token.", "error");
     }
 };
 
 const registerUrls = async () => {
     try {
-        const response = await axios.post('/api/register-urls');
-        Swal.fire('Success', 'URLs registered successfully.', 'success');
+        const response = await axios.post("/api/register-urls");
+        Swal.fire("Success", "URLs registered successfully.", "success");
     } catch (error) {
-        Swal.fire('Error', 'Failed to register URLs.', 'error');
+        Swal.fire("Error", "Failed to register URLs.", "error");
     }
 };
 </script>
-
-
-

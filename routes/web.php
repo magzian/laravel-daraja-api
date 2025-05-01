@@ -39,6 +39,13 @@ Route::middleware('auth')->group(function () {
 Route::get('/mpesa', fn () => Inertia::render('AccessToken'));
 Route::get('/api/access-token', [MpesaController::class, 'getAccessToken'])->name('mpesa.getAccessToken');
 
+Route::get('/test-env', function () {
+    return response()->json([
+        'consumer_key' => env('MPESA_CONSUMER_KEY'),
+        'consumer_secret' => env('MPESA_CONSUMER_SECRET'),
+    ]);
+});
+
 
 
 require __DIR__.'/auth.php';
