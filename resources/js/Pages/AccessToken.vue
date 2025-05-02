@@ -52,11 +52,9 @@ const getAccessToken = async () => {
     try {
         const response = await axios.get("/api/access-token");
         accessToken.value = response.data.access_token;
-        console.log("Access Token:", accessToken.value);
-        console.log("Response Data:", response.data);
+        /* console.log("Access Token:", accessToken.value); */
         Swal.fire("Success", "Access token retrieved.", "success");
     } catch (error) {
-        console.error("Access Token Error:", error.response?.data || error.message);
         Swal.fire("Error", "Failed to retrieve access token.", "error");
     }
 };
