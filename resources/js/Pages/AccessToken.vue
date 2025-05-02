@@ -16,6 +16,7 @@
             <h2 class="text-xl font-semibold text-gray-800 mb-4">
                 Register URLs
             </h2>
+            <h4 class="text-gray-600 text-lg mb-4">{{ responseDescription }}</h4>
             <button @click="registerUrls" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                 Register URLs
             </button>
@@ -47,6 +48,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 const accessToken = ref("");
+const responseDescription = ref("");
 
 const getAccessToken = async () => {
     try {
@@ -61,7 +63,9 @@ const getAccessToken = async () => {
 
 const registerUrls = async () => {
     try {
-        const response = await axios.post("/api/register-urls");
+        const response = await axios.get("/api/register-urls");
+        /* console.log(response.data.ResponseDescription); */
+        responseDescription.value = response.data.ResponseDescription;  
         Swal.fire("Success", "URLs registered successfully.", "success");
     } catch (error) {
         Swal.fire("Error", "Failed to register URLs.", "error");
