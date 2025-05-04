@@ -67,6 +67,33 @@ class MpesaController extends Controller
         return response()->json(json_decode($response));
     }
 
+
+    public function stkPush(Request $request){
+        $timestamp = date('YmdHis');
+        $password = env('MPESA_SHORTCODE'). env('MPESA_PASSKEY') . $timestamp;
+
+
+        $body = array(
+            'BusinessShortCode' => env('MPESA_SHORTCODE'),
+            'TransactionType' => 'CustomerPayBillOnline',  
+            'Password'=> $password,
+            'Timestamp' => $timestamp,
+            'Amount' => $request->amount,
+            'PartyA' => $request->phone,
+            'PartyB' => env('MPESA_SHORTCODE'),
+            'CallBackURL' => env('MPESA_TEST_URL').'/api/stk-push',  
+            'PhoneNumber' => $request->phone,
+            'AccountReference' => $request->account,
+            'TransactionDesc' => $request->account,
+        );
+
+        $url = env('MPESA_ENV') == 0 ? 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest': 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+
+        $response = $this->makeHttp($url, $body);
+
+        return response()->json(json_decode($response));
+    }
+
   /*   public function simulatePayment(Request $request){
         $body = array(
             "AccountReference":"Test",

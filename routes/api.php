@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Payments\MpesaController;
 use App\Http\Controllers\Payments\MpesaResponsesController;
 
 /*
@@ -21,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('validation', [MpesaResponsesController::class, 'validation']); 
 Route::post('confirmation', [MpesaResponsesController::class, 'confirmation']);
+Route::post('stk-push', [MpesaResponsesController::class, 'stkPush']);

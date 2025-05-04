@@ -41,6 +41,10 @@ Route::get('/api/access-token', [MpesaController::class, 'getAccessToken'])->nam
 Route::get('/api/register-urls', [MpesaController::class, 'registerUrls'])->name('mpesa.registerUrls');
 Route::get('/api/simulate-payment', [MpesaController::class, 'simulatePayment'])->name('mpesa.simulatePayment');
 
+Route::get('/stk', function () {
+    return Inertia::render('StkPush');
+});
+Route::post('/stk-push', [MpesaController::class, 'stkPush'])->name('mpesa.stkPush');
 
 Route::get('/test-env', function () {
     return response()->json([
