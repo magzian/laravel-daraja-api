@@ -55,7 +55,7 @@ const simulateStk = async () => {
         Swal.fire({
             icon: "success",
             title: "Success",
-            text: response.data.message,
+            text: "STK Push simulated successfully.",
             
         });
     } catch (error) {
