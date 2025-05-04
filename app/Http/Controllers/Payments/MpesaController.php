@@ -67,6 +67,26 @@ class MpesaController extends Controller
         return response()->json(json_decode($response));
     }
 
+  /*   public function simulatePayment(Request $request){
+        $body = array(
+            "AccountReference":"Test",
+            "TransactionType": "CustomerPayBillOnline",  
+            "PartyA":"254708374149", 
+            "PartyB":"174379",      
+            "BusinessShortCode": "174379", 
+            'Amount' => $request->amount,
+            'BillRefNumber' => $request->account,
+            
+        );
+
+        $url = env('MPESA_ENV') == 0 ? 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest': 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+
+        $response = $this->makeHttp($url, $body);
+
+        return $response;
+
+    } */
+
     public function makeHttp($url, $body){
         $token = $this->retrieveAccessToken();
         $curl = curl_init();
@@ -86,6 +106,8 @@ class MpesaController extends Controller
         curl_close($curl);
         return $curl_response;
     }
+
+    
 
     
 

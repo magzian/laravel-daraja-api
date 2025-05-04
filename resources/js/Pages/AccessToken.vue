@@ -25,17 +25,23 @@
         <!-- Optional Form Example -->
         <div class="bg-white shadow-md rounded-lg p-6 mt-8">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">
-                Sample Form
+                Simulate Transactions
             </h2>
             <form @submit.prevent="submitForm">
                 <div class="mb-4">
-                    <label for="url" class="block text-gray-700 font-medium mb-2">URL</label>
-                    <input type="text" id="url" v-model="url"
+                    <label for="amount" class="block text-gray-700 font-medium mb-2">Amount</label>
+                    <input type="amount" id="amount" v-model="amount"
                         class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         required />
                 </div>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                    Submit URL
+                <div class="mb-4">
+                    <label for="account" class="block text-gray-700 font-medium mb-2">Account</label>
+                    <input type="text" id="account" v-model="account"
+                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                        required />
+                </div>
+                <button @click="simulatePayments" type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                    Simulate Payment
                 </button>
             </form>
         </div>
@@ -49,6 +55,8 @@ import axios from "axios";
 
 const accessToken = ref("");
 const responseDescription = ref("");
+const amount = ref("");
+const account = ref("");
 
 const getAccessToken = async () => {
     try {
@@ -71,4 +79,21 @@ const registerUrls = async () => {
         Swal.fire("Error", "Failed to register URLs.", "error");
     }
 };
+
+const simulatePayments = async () => {
+    try {
+        const response = await axios.post("/api/simulate-payment",{
+            amount:amount.value,
+            account:account.value,
+        });
+        console.log(response.data);
+
+        Swal.fire("Success", "Payment successful.", "success");
+    } catch (error) {
+        Swal.fire("Error", "Payment failed.", "error");
+    }
+}
+
+
+
 </script>
