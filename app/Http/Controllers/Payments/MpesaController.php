@@ -74,17 +74,17 @@ class MpesaController extends Controller
 
 
         $body = array(
-            'BusinessShortCode' => env('MPESA_SHORTCODE'),
-            'TransactionType' => 'CustomerPayBillOnline',  
-            'Password'=> $password,
-            'Timestamp' => $timestamp,
-            'Amount' => $request->amount,
-            'PartyA' => $request->phone,
-            'PartyB' => env('MPESA_SHORTCODE'),
-            'CallBackURL' => env('MPESA_TEST_URL').'/api/stk-push',  
-            'PhoneNumber' => $request->phone,
-            'AccountReference' => $request->account,
-            'TransactionDesc' => $request->account,
+            "BusinessShortCode" => 174379,
+            "Password" => "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMjUwNTI4MTYzODI0",
+            "Timestamp" => "20250528163824",
+            "TransactionType" => "CustomerPayBillOnline",
+            "Amount" => 1,
+            "PartyA" => $request->phone, // Customer's phone number
+            "PartyB" => 174379,
+            "PhoneNumber" => $request->phone, // Customer's phone number
+            "CallBackURL" => "https://mydomain.com/path",
+            "AccountReference" => "CompanyXLTD",
+            "TransactionDesc" => "Payment of X"
         );
 
         $url = env('MPESA_ENV') == 0 ? 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest': 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
@@ -94,25 +94,28 @@ class MpesaController extends Controller
         return response()->json(json_decode($response));
     }
 
-  /*   public function simulatePayment(Request $request){
+    public function b2c(Request $request){
         $body = array(
-            "AccountReference":"Test",
-            "TransactionType": "CustomerPayBillOnline",  
-            "PartyA":"254708374149", 
-            "PartyB":"174379",      
-            "BusinessShortCode": "174379", 
-            'Amount' => $request->amount,
-            'BillRefNumber' => $request->account,
-            
+            "Initiator" => env('MPESA_B2C_INITIATOR'),
+            "SecurityCredential" => env('MPESA_B2C_PASSWORD'),
+            "CommandID" => 'BusinessPayToBulk',
+            "SenderIdentifierType" => "4",
+            "RecieverIdentifierType" => "4",
+            "Amount" => $request->amount,
+            "PartyA" => env('MPESA_SHORTCODE'),
+            "PartyB" => $request->phone,
+            "AccountReference" => "353353",
+            "Requester" => "254708374149",
+            "Remarks" =>$request->remarks,
+            "QueueTimeOutURL" => "https://mydomain/path/timeout",
+            "ResultURL" => "https://mydomain/path/result"
         );
 
-        $url = env('MPESA_ENV') == 0 ? 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest': 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+        $url = env('MPESA_ENV') == 0 ? 'https://sandbox.safaricom.co.ke/mpesa/b2b/v1/paymentrequest' : 'https://api.safaricom.co.ke/mpesa/b2b/v1/paymentrequest';
 
         $response = $this->makeHttp($url, $body);
-
-        return $response;
-
-    } */
+        return response()->json(json_decode($response));
+    }
 
     public function makeHttp($url, $body){
         $token = $this->retrieveAccessToken();

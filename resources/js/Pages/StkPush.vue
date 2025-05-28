@@ -11,18 +11,6 @@
                         class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         required />
                 </div>
-                <div class="mb-4">
-                    <label for="amount" class="block text-gray-700 font-medium mb-2">Amount</label>
-                    <input type="amount" id="amount" v-model="amount"
-                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        required />
-                </div>
-                <div class="mb-4">
-                    <label for="account" class="block text-gray-700 font-medium mb-2">Account</label>
-                    <input type="text" id="account" v-model="account"
-                        class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        required />
-                </div>
                 <button @click="simulateStk" type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
                     Simulate STK
                 </button>
@@ -44,8 +32,6 @@ const phone = ref("");
 const simulateStk = async () => {
     
     const data = {
-        amount: amount.value,
-        account: account.value,
         phone: phone.value,
     };
 
